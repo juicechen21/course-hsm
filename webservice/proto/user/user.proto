@@ -1,0 +1,21 @@
+syntax = "proto3";
+
+package go.micro.srv.user;
+
+service User {
+	rpc Call(Request) returns (Response) {}
+	rpc Login(Request) returns (Response) {}
+}
+
+message Request {
+	string username = 1;
+	string password = 2;
+}
+
+message Response {
+	int64 id = 1;
+	string name = 2;
+	string phone = 3;
+	int64 status = 4;
+	int64 role = 5;
+}

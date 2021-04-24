@@ -1,0 +1,54 @@
+syntax = "proto3";
+
+package go.micro.srv.uavdata;
+
+service Uavdata {
+	rpc Call(Request) returns (Response) {}
+}
+
+message Request {
+    string systemCode = 1;  		//系统编码
+    int64 deviceType = 2;  			//设备类型：1无人机 2地面站 3挂载
+	string deviceHardId = 3;    	//设备id
+	float airSpeed = 4;   			//空气速度（单位：m/s）
+	float altitude = 5;      		//海拔
+	float barometerTemp = 6;    	//气压计温度
+	float battaryRemain = 7;    	//电池剩余电量（%）
+	float climbRate = 8;       		//爬升率
+	float current = 9;         		//电流
+	int64 dateTime = 10;          	//飞行时间
+	float distanceToHome = 11;   	//到Home点距离
+	float distanceToNext = 12;   	//到下一任务点距离
+	float flightDistance  = 13;   	//已飞公里数（单位KM）注意客户端上报过来的单位是什么
+	string flightMode = 14;       	//飞行模式
+	string flightSortie = 15;     	//飞行架次
+	int64 flightState = 16;     	//飞行状态
+	float flightTime = 17;      	//已飞行时间（单位：min）
+	float groundSpeed = 18;      	//对地速度
+	float height = 19;          	//高度
+	float imuTemp = 20;        		//处理器温度
+	int64 isLocation = 21;         	//是否定位成功
+	string latitude  = 22;         	//纬度
+	string longitude = 23;       	//经度
+	float pitch = 24;         		//俯仰
+	float roll = 25;          		//横滚
+	float satCount = 26;   			//卫星数
+	int64 unmannedId = 27;      	//无人机类型
+	string voltage = 28;    		//电池电压
+	string yaw = 29;    			//偏航
+	string mountType = 30;    		//挂载类型
+	int64 uid = 31;       			//用户ID
+	int64 taskId = 32;   			//任务ID
+	string platformType = 33;  		//平台类型
+	string customData = 34;         //自定义（源数据）
+	string currentMountType = 35;  	//挂载类型（源数据）
+	string mountInfo = 36;      	//挂载数据（源数据）
+	string videoInfo = 37;      	//视频数据（源数据）
+	string cmdGasList = 38;       	//气体数据（源数据）
+	string data = 39;        		//上报数据（源数据）
+	int64 time = 40;         		//上报时间
+}
+
+message Response {
+	string msg = 1;
+}
