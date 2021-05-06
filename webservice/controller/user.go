@@ -5,9 +5,11 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/gin-gonic/gin"
-	"github.com/go-micro/registry/consul"
+	//"github.com/go-micro/registry/consul"
 	"github.com/micro/go-micro"
 	"github.com/micro/go-micro/registry"
+	"github.com/micro/go-plugins/registry/etcdv3"
+	go_micro_srv_snowflake "hsm/webservice/proto/snowflake"
 	go_micro_srv_uavdata "hsm/webservice/proto/uavdata"
 	go_micro_srv_user "hsm/webservice/proto/user"
 	"hsm/webservice/util"
@@ -18,8 +20,16 @@ import (
 var service micro.Service
 
 func init()  {
+	// 初始化服务发现 etcd
+	consulReg := etcdv3.NewRegistry(func(options *registry.Options) {
+		options.Addrs=[]string{
+			"192.168.5.88:2379",
+			"192.168.5.138:2379",
+			"192.168.3.31:2379",
+		}
+	})
 	// 初始化服务发现 consul
-	consulReg := consul.NewRegistry(registry.Addrs("192.168.5.88:8500"))
+	//consulReg := consul.NewRegistry(registry.Addrs("192.168.5.88:8500"))
 	// 初始化micro服务对象，指定consul为服务发现
 	service = micro.NewService(
 		micro.Registry(consulReg),
@@ -50,6 +60,26 @@ func LonginHandler(c *gin.Context)  {
 
 	if err != nil {
 		fmt.Println("call err: ", err)
+	}
+	c.JSON(http.StatusOK,gin.H{
+		"status":"",
+		"message":"ok",
+		"return":resp,
+	})
+}
+
+// GetCodeHandler 获取雪花算法唯一ID
+func GetCodeHandler(c *gin.Context)  {
+	// 初始化客户端
+	microClient := go_micro_srv_snowflake.NewSnowflakeService("go.micro.srv.snowflake",service.Client())
+
+	// 远程调用服务
+	resp, err := microClient.GenerateOnlyId(context.TODO(), &go_micro_srv_snowflake.Request{
+		WorkerId: 1,
+	})
+
+	if err != nil {
+		fmt.Println("snowflake err: ", err)
 	}
 	c.JSON(http.StatusOK,gin.H{
 		"status":"",

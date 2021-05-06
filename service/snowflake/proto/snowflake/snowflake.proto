@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+package go.micro.srv.snowflake;
+
+service Snowflake {
+	rpc GenerateOnlyId(Request) returns (Response) {}
+}
+
+message Request {
+	int64 workerId = 1;
+}
+
+message Response {
+	int64 codeId = 1;
+}
