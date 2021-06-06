@@ -1,2 +1,4 @@
 /.idea
 /.exe
+/webservice/*.exe
+/service/snowflake/*.exe

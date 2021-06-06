@@ -23,9 +23,9 @@ func init()  {
 	// 初始化服务发现 etcd
 	consulReg := etcdv3.NewRegistry(func(options *registry.Options) {
 		options.Addrs=[]string{
-			"192.168.5.88:2379",
-			"192.168.5.138:2379",
-			"192.168.3.31:2379",
+			"10.4.7.30:2379",
+			"10.4.7.31:2379",
+			"10.4.7.32:2379",
 		}
 	})
 	// 初始化服务发现 consul
