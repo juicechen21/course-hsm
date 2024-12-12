@@ -1,5 +1,5 @@
 ## course-hsm
- kratos使用demo
+go-micro使用demo
 ## git
 
 ```bash
